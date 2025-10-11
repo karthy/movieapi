@@ -32,3 +32,12 @@ server:
 app:
   kafka:
     topic: movie.events
+
+logging:
+  file:
+    name: logs/movieapi.log   # creates a file in your project folder
+  level:
+    root: INFO
+    com.karthyk.movieapi: DEBUG
+    org.springframework.kafka: INFO
+

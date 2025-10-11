@@ -7,6 +7,8 @@ import com.karthyk.movieapi.events.MovieEvent;
 import com.karthyk.movieapi.events.MovieEventProducer;
 import com.karthyk.movieapi.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -16,6 +18,8 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class MovieService {
+    private static final Logger log = LoggerFactory.getLogger(MovieService.class);
+
     private final MovieRepository repo;
     private final MovieEventProducer producer;
 
@@ -47,6 +51,7 @@ public class MovieService {
     }
 
     private void emit(String type, Movie m) {
+        log.info("Starting to publish Event");
         var payload = MovieEvent.Payload.builder()
                 .id(m.getId().toString())
                 .title(m.getTitle())
@@ -62,6 +67,7 @@ public class MovieService {
                 .build();
 
         producer.publish(event);
+        log.info("Event is published");
     }
 
     private MovieResponse map(Movie m) {
@@ -71,6 +77,7 @@ public class MovieService {
     }
 
     public List<MovieResponse> getAllMovies() {
+        log.info("Sending all movie details");
         return repo.findAll()
                 .stream()
                 .map(m -> new MovieResponse(
