@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -67,6 +68,18 @@ public class MovieService {
         return new MovieResponse(
                 m.getId().toString(), m.getTitle(), m.getGenre(), m.getYear()
         );
+    }
+
+    public List<MovieResponse> getAllMovies() {
+        return repo.findAll()
+                .stream()
+                .map(m -> new MovieResponse(
+                        m.getId().toString(),
+                        m.getTitle(),
+                        m.getGenre(),
+                        m.getYear()
+                ))
+                .toList();
     }
 }
 

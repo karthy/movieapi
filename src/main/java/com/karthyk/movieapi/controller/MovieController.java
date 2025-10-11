@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "Movies", description = "Movie CRUD endpoints")
@@ -18,6 +19,13 @@ import java.util.UUID;
 public class MovieController {
 
     private final MovieService movieService;
+
+    @Operation(summary = "Get all movies")
+    @GetMapping("/all")
+    public List<MovieResponse> getAllMovies() {
+
+         return movieService.getAllMovies();
+    }
 
     @Operation(summary = "Create a movie")
     @PostMapping
